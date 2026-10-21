@@ -1,0 +1,74 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_PORT=8080
+      - APP_ENV=development
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=erp_user
+      - DB_PASSWORD=erp_password
+      - DB_NAME=erp_db
+      - DB_SSLMODE=disable
+      - JWT_SECRET=your-super-secret-key-change-in-production
+      - JWT_EXPIRY_HOURS=24
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - erp-network
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=erp_user
+      - POSTGRES_PASSWORD=erp_password
+      - POSTGRES_DB=erp_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - erp_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U erp_user -d erp_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - erp-network
+
+  migrate:
+    image: migrate/migrate:v4.17.0
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://erp_user:erp_password@db:5432/erp_db?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - erp-network
+
+volumes:
+  erp_data:
+
+networks:
+  erp-network:
+    driver: bridge
