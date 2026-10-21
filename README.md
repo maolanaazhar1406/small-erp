@@ -162,7 +162,7 @@ This Small ERP system addresses common business operations for small to medium e
 
 2. **Start the application**
    ```bash
-   docker compose up --build
+   docker compose up -d --build
    ```
    This will:
    - Start PostgreSQL 16
