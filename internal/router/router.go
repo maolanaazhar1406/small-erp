@@ -12,6 +12,9 @@ import (
 func NewRouter(db *pgxpool.Pool, cfg *config.Config) *chi.Mux {
 	r := chi.NewRouter()
 
+	// CORS harus paling awal, sebelum middleware lain.
+	r.Use(middleware.CORS([]string{"http://localhost:5173"}))
+
 	// Global middleware
 	r.Use(chiMiddleware.RequestID)
 	r.Use(middleware.Logger)
