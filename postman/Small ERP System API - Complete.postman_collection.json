@@ -1,0 +1,4972 @@
+{
+	"info": {
+		"_postman_id": "0f7bfc00-4d52-4291-a545-043c855a0cc7",
+		"name": "Small ERP System API - Complete",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "55906534"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 02:45:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1217"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOlsidXNlcnM6cmVhZCIsInVzZXJzOmNyZWF0ZSIsInVzZXJzOnVwZGF0ZSIsInVzZXJzOmRlbGV0ZSIsInJvbGVzOnJlYWQiLCJyb2xlczpjcmVhdGUiLCJyb2xlczp1cGRhdGUiLCJyb2xlczpkZWxldGUiLCJwcm9kdWN0czpyZWFkIiwicHJvZHVjdHM6Y3JlYXRlIiwicHJvZHVjdHM6dXBkYXRlIiwicHJvZHVjdHM6ZGVsZXRlIiwiY3VzdG9tZXJzOnJlYWQiLCJjdXN0b21lcnM6Y3JlYXRlIiwiY3VzdG9tZXJzOnVwZGF0ZSIsImN1c3RvbWVyczpkZWxldGUiLCJzdXBwbGllcnM6cmVhZCIsInN1cHBsaWVyczpjcmVhdGUiLCJzdXBwbGllcnM6dXBkYXRlIiwic3VwcGxpZXJzOmRlbGV0ZSIsInB1cmNoYXNlczpyZWFkIiwicHVyY2hhc2VzOmNyZWF0ZSIsInB1cmNoYXNlczp1cGRhdGUiLCJpbnZlbnRvcnk6cmVhZCIsImludmVudG9yeTpjcmVhdGUiLCJzYWxlczpyZWFkIiwic2FsZXM6Y3JlYXRlIiwic2FsZXM6dXBkYXRlIiwiZmluYW5jZTpyZWFkIiwiZmluYW5jZTpjcmVhdGUiLCJmaW5hbmNlOnVwZGF0ZSIsInJlcG9ydHM6cmVhZCJdLCJleHAiOjE3OTMxNTU1NTgsImlhdCI6MTc5MzA2OTE1OH0.DLGeh_kJDszQw4RMghYG7ZqD5MB53Txj1UUq-sBjwPQ\",\n        \"user\": {\n            \"id\": 1,\n            \"username\": \"admin\",\n            \"email\": \"admin@erp.local\",\n            \"full_name\": \"System Administrator\",\n            \"role_id\": 1,\n            \"role_name\": \"admin\",\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users & Roles",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "List Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:46:13 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "756"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"username\": \"admin\",\n            \"email\": \"admin@erp.local\",\n            \"full_name\": \"System Administrator\",\n            \"role_id\": 1,\n            \"role_name\": \"admin\",\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 2,\n            \"username\": \"manager\",\n            \"email\": \"manager@erp.local\",\n            \"full_name\": \"Demo Manager\",\n            \"role_id\": 2,\n            \"role_name\": \"manager\",\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 3,\n            \"username\": \"staff\",\n            \"email\": \"staff@erp.local\",\n            \"full_name\": \"Demo Staff\",\n            \"role_id\": 3,\n            \"role_name\": \"staff\",\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 20,\n        \"total\": 3\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"test@test.com\",\n  \"full_name\": \"user test\",\n  \"password\": \"password123\",\n  \"role_id\": 3\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"test@test.com\",\n  \"full_name\": \"user test\",\n  \"password\": \"password123\",\n  \"role_id\": 3\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:47:12 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "262"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"User created\",\n    \"data\": {\n        \"id\": 4,\n        \"username\": \"newuser\",\n        \"email\": \"test@test.com\",\n        \"full_name\": \"user test\",\n        \"role_id\": 3,\n        \"role_name\": \"staff\",\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T02:47:12.036502Z\",\n        \"updated_at\": \"2026-10-27T02:47:12.036502Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get User by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:47:32 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "275"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"User retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"username\": \"admin\",\n        \"email\": \"admin@erp.local\",\n        \"full_name\": \"System Administrator\",\n        \"role_id\": 1,\n        \"role_name\": \"admin\",\n        \"is_active\": true,\n        \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n        \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"updateduser\",\n  \"full_name\": \"test update\",\n  \"email\": \"update@email.com\",\n  \"role_id\": 2\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"updateduser\",\n  \"full_name\": \"test update\",\n  \"email\": \"update@email.com\",\n  \"role_id\": 2\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users/4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users",
+												"4"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:48:48 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "269"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"User updated\",\n    \"data\": {\n        \"id\": 4,\n        \"username\": \"newuser\",\n        \"email\": \"update@email.com\",\n        \"full_name\": \"test update\",\n        \"role_id\": 2,\n        \"role_name\": \"manager\",\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T02:47:12.036502Z\",\n        \"updated_at\": \"2026-10-27T02:48:48.623542Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users/4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users",
+												"4"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:49:07 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"User deleted\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "roles",
+					"item": [
+						{
+							"name": "List Roles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/roles?pages=1&per_page=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"roles"
+											],
+											"query": [
+												{
+													"key": "pages",
+													"value": "1"
+												},
+												{
+													"key": "per_page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:50:08 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "545"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Roles retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"admin\",\n            \"description\": \"System Administrator with full access\",\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"manager\",\n            \"description\": \"Manager with read/write access to most modules\",\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"staff\",\n            \"description\": \"Staff with limited access\",\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"test\",\n  \"description\": \"test\",\n  \"permissions\": [1,2,3,4,5,6]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"test\",\n  \"permissions\": [1,2,3,4,5,6]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/roles",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"roles"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:56:35 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "543"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Role created\",\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"test\",\n        \"description\": \"\",\n        \"created_at\": \"2026-10-27T02:56:35.438987Z\",\n        \"updated_at\": \"2026-10-27T02:56:35.438987Z\",\n        \"permissions\": [\n            {\n                \"id\": 1,\n                \"name\": \"users:read\",\n                \"description\": \"View users\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"users:create\",\n                \"description\": \"Create users\"\n            },\n            {\n                \"id\": 3,\n                \"name\": \"users:update\",\n                \"description\": \"Update users\"\n            },\n            {\n                \"id\": 4,\n                \"name\": \"users:delete\",\n                \"description\": \"Delete users\"\n            },\n            {\n                \"id\": 5,\n                \"name\": \"roles:read\",\n                \"description\": \"View roles\"\n            },\n            {\n                \"id\": 6,\n                \"name\": \"roles:create\",\n                \"description\": \"Create roles\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Role by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/roles/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roles",
+										"7"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/roles/7",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"roles",
+												"7"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:57:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "545"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Role retrieved\",\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"test\",\n        \"description\": \"\",\n        \"created_at\": \"2026-10-27T02:56:35.438987Z\",\n        \"updated_at\": \"2026-10-27T02:56:35.438987Z\",\n        \"permissions\": [\n            {\n                \"id\": 1,\n                \"name\": \"users:read\",\n                \"description\": \"View users\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"users:create\",\n                \"description\": \"Create users\"\n            },\n            {\n                \"id\": 3,\n                \"name\": \"users:update\",\n                \"description\": \"Update users\"\n            },\n            {\n                \"id\": 4,\n                \"name\": \"users:delete\",\n                \"description\": \"Delete users\"\n            },\n            {\n                \"id\": 5,\n                \"name\": \"roles:read\",\n                \"description\": \"View roles\"\n            },\n            {\n                \"id\": 6,\n                \"name\": \"roles:create\",\n                \"description\": \"Create roles\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Role",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"test update\",\n  \"description\": \"test update\",\n  \"permissions\": [4,5,6]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/roles/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roles",
+										"7"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"test update\",\n  \"description\": \"test update\",\n  \"permissions\": [4,5,6]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/roles/7",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"roles",
+												"7"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:59:34 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "385"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Role updated\",\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"test update\",\n        \"description\": \"test update\",\n        \"created_at\": \"2026-10-27T02:56:35.438987Z\",\n        \"updated_at\": \"2026-10-27T02:59:34.120004Z\",\n        \"permissions\": [\n            {\n                \"id\": 4,\n                \"name\": \"users:delete\",\n                \"description\": \"Delete users\"\n            },\n            {\n                \"id\": 5,\n                \"name\": \"roles:read\",\n                \"description\": \"View roles\"\n            },\n            {\n                \"id\": 6,\n                \"name\": \"roles:create\",\n                \"description\": \"Create roles\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Role",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/roles/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roles",
+										"4"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/roles/4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"roles",
+												"4"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 02:59:56 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Role deleted\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Master Data",
+			"item": [
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "List Products",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/products?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/products?page=1&per_page=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "per_page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:07:22 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Products retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"code\": \"PRD-001\",\n            \"name\": \"Laptop Computer\",\n            \"description\": \"Business laptop 14 inch\",\n            \"category_id\": 1,\n            \"category_name\": \"Electronics\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 15000000,\n            \"cost\": 12000000,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 2,\n            \"code\": \"PRD-002\",\n            \"name\": \"Wireless Mouse\",\n            \"description\": \"Ergonomic wireless mouse\",\n            \"category_id\": 1,\n            \"category_name\": \"Electronics\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 250000,\n            \"cost\": 150000,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 3,\n            \"code\": \"PRD-003\",\n            \"name\": \"A4 Paper\",\n            \"description\": \"A4 copy paper 80gsm\",\n            \"category_id\": 2,\n            \"category_name\": \"Office Supplies\",\n            \"unit_id\": 5,\n            \"unit_name\": \"Box\",\n            \"price\": 55000,\n            \"cost\": 40000,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 4,\n            \"code\": \"PRD-004\",\n            \"name\": \"USB Cable\",\n            \"description\": \"USB-C cable 1 meter\",\n            \"category_id\": 1,\n            \"category_name\": \"Electronics\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 75000,\n            \"cost\": 35000,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 5,\n            \"code\": \"PRD-005\",\n            \"name\": \"Printer Ink\",\n            \"description\": \"Black printer ink cartridge\",\n            \"category_id\": 2,\n            \"category_name\": \"Office Supplies\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 350000,\n            \"cost\": 200000,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 6,\n            \"code\": \"LP-01\",\n            \"name\": \"Laptop Pro\",\n            \"description\": \"\",\n            \"category_id\": 1,\n            \"category_name\": \"Electronics\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 15000000,\n            \"cost\": 0,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-27T02:16:14.970366Z\",\n            \"updated_at\": \"2026-10-27T02:16:14.970366Z\"\n        },\n        {\n            \"id\": 9,\n            \"code\": \"LP-02\",\n            \"name\": \"Laptop Pro Updated\",\n            \"description\": \"laptop untuk karyawan\",\n            \"category_id\": 1,\n            \"category_name\": \"Electronics\",\n            \"unit_id\": 1,\n            \"unit_name\": \"Piece\",\n            \"price\": 16000000,\n            \"cost\": 0,\n            \"min_stock\": 0,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-27T02:17:02.235482Z\",\n            \"updated_at\": \"2026-10-27T02:17:53.791055Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 7\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"test Pro-1\",\n  \"code\": \"test-02\",\n  \"category_id\": 1,\n  \"unit_id\": 1,\n  \"price\": 15000000,\n  \"description\": \"test\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"test Pro-1\",\n  \"code\": \"test-02\",\n  \"category_id\": 1,\n  \"unit_id\": 1,\n  \"price\": 15000000,\n  \"description\": \"test\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/products",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"products"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:07:54 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "341"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Product created\",\n    \"data\": {\n        \"id\": 10,\n        \"code\": \"test-02\",\n        \"name\": \"test Pro-1\",\n        \"description\": \"test\",\n        \"category_id\": 1,\n        \"category_name\": \"Electronics\",\n        \"unit_id\": 1,\n        \"unit_name\": \"Piece\",\n        \"price\": 15000000,\n        \"cost\": 0,\n        \"min_stock\": 0,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T03:07:53.999638Z\",\n        \"updated_at\": \"2026-10-27T03:07:53.999638Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Product by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/products/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"products",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:08:14 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "373"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Product retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"code\": \"PRD-001\",\n        \"name\": \"Laptop Computer\",\n        \"description\": \"Business laptop 14 inch\",\n        \"category_id\": 1,\n        \"category_name\": \"Electronics\",\n        \"unit_id\": 1,\n        \"unit_name\": \"Piece\",\n        \"price\": 15000000,\n        \"cost\": 12000000,\n        \"min_stock\": 0,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n        \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Laptop Pro Updated\",\n  \"category_id\": 1,\n  \"unit_id\": 1,\n  \"price\": 16000000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/products/10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"10"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Laptop Pro Updated\",\n  \"category_id\": 1,\n  \"unit_id\": 1,\n  \"price\": 16000000\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/products/10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"products",
+												"10"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:08:36 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "349"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Product updated\",\n    \"data\": {\n        \"id\": 10,\n        \"code\": \"test-02\",\n        \"name\": \"Laptop Pro Updated\",\n        \"description\": \"test\",\n        \"category_id\": 1,\n        \"category_name\": \"Electronics\",\n        \"unit_id\": 1,\n        \"unit_name\": \"Piece\",\n        \"price\": 16000000,\n        \"cost\": 0,\n        \"min_stock\": 0,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T03:07:53.999638Z\",\n        \"updated_at\": \"2026-10-27T03:08:36.203411Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/products/9",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product category",
+					"item": [
+						{
+							"name": "List Product Categories",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/product-categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detail Product Categories",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/product-categories/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product Categories",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/product-categories/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product Categories",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"makanan\",\n  \"description\": \"update makanan\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/product-categories/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"makana\",\n  \"description\": \"\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/product-categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"product-categories"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UOM",
+					"item": [
+						{
+							"name": "List Units",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/units",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"units"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detail Units",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/units/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"units",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Units",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Unit test\",\n  \"abbreviation\": \"update\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/units/6",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"units",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Units",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Unit test\",\n  \"abbreviation\": \"update\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/units/6",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"units",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Unit",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Unit test\",\n  \"abbreviation\": \"pcs test\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/units",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"units"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "customers",
+					"item": [
+						{
+							"name": "List Customers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/customers",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detail Customers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/customers/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"customers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Customers",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/customers/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"customers",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customers",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"mang ujank\",\n  \"code\": \"mj-update\",\n  \"email\": \"mangajang@majujaya.com\",\n  \"phone\": \"08123456789\",\n  \"address\": \"bajang\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/customers/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"customers",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"mang ujang\",\n  \"code\": \"mj-02\",\n  \"email\": \"mangajang@majujaya.com\",\n  \"phone\": \"08123456789\",\n  \"address\": \"bajang\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/customers",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "suppliers",
+					"item": [
+						{
+							"name": "List Suppliers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/suppliers",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suppliers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detail Suppliers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/suppliers/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suppliers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Suppliers",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"mang update\",\n  \"code\": \"ms-update\",\n  \"email\": \"sales@distributor.com\",\n  \"phone\": \"08987654321\",\n  \"address\": \"masa\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/suppliers/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suppliers",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Suppliers",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/suppliers/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suppliers",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Supplier",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"mang sajang\",\n  \"code\": \"ms-01\",\n  \"email\": \"sales@distributor.com\",\n  \"phone\": \"08987654321\",\n  \"address\": \"masa\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/suppliers",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suppliers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Procurement",
+			"item": [
+				{
+					"name": "purchase order",
+					"item": [
+						{
+							"name": "List Purchase Orders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/purchase-orders?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"purchase-orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/purchase-orders?page=1&per_page=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"purchase-orders"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "per_page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:09:21 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "660"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Purchase orders retrieved\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"po_number\": \"PO-20261027-0002\",\n            \"supplier_id\": 1,\n            \"supplier_name\": \"PT Distributor Utama\",\n            \"order_date\": \"2024-01-15\",\n            \"status\": \"draft\",\n            \"total_amount\": 120000000,\n            \"notes\": \"test\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T02:45:08.584772Z\",\n            \"updated_at\": \"2026-10-27T02:45:08.584772Z\"\n        },\n        {\n            \"id\": 1,\n            \"po_number\": \"PO-20261027-0001\",\n            \"supplier_id\": 1,\n            \"supplier_name\": \"PT Distributor Utama\",\n            \"order_date\": \"2024-01-15\",\n            \"status\": \"draft\",\n            \"total_amount\": 120000000,\n            \"notes\": \"\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T02:44:35.853154Z\",\n            \"updated_at\": \"2026-10-27T02:44:35.853154Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 2\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Purchase Order",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"supplier_id\": 1,\n    \"order_date\": \"2024-01-15\",\n    \"notes\": \"test\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 10,\n            \"unit_price\": 12000000\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/purchase-orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"purchase-orders"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"supplier_id\": 1,\n    \"order_date\": \"2024-01-15\",\n    \"notes\": \"test\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 10,\n            \"unit_price\": 12000000\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/purchase-orders",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"purchase-orders"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:09:45 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "475"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Purchase order created\",\n    \"data\": {\n        \"id\": 3,\n        \"po_number\": \"PO-20261027-0003\",\n        \"supplier_id\": 1,\n        \"supplier_name\": \"PT Distributor Utama\",\n        \"order_date\": \"2024-01-15\",\n        \"status\": \"draft\",\n        \"total_amount\": 120000000,\n        \"notes\": \"test\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:09:45.351625Z\",\n        \"updated_at\": \"2026-10-27T03:09:45.351625Z\",\n        \"items\": [\n            {\n                \"id\": 3,\n                \"po_id\": 3,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 10,\n                \"unit_price\": 12000000,\n                \"total_price\": 120000000\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Purchase Order by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/purchase-orders/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"purchase-orders",
+										"3"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/purchase-orders/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"purchase-orders",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:10:08 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "473"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Purchase order retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"po_number\": \"PO-20261027-0001\",\n        \"supplier_id\": 1,\n        \"supplier_name\": \"PT Distributor Utama\",\n        \"order_date\": \"2024-01-15\",\n        \"status\": \"draft\",\n        \"total_amount\": 120000000,\n        \"notes\": \"\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T02:44:35.853154Z\",\n        \"updated_at\": \"2026-10-27T02:44:35.853154Z\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"po_id\": 1,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 10,\n                \"unit_price\": 12000000,\n                \"total_price\": 120000000\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Purchase Order",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"supplier_id\": 1,\n  \"order_date\": \"2024-01-15\",\n  \"notes\": \"test update\",\n  \"items\": [\n    {\"product_id\": 1, \"quantity\": 12, \"unit_price\": 12000000}\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/purchase-orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"purchase-orders",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"supplier_id\": 1,\n  \"order_date\": \"2024-01-15\",\n  \"notes\": \"test update\",\n  \"items\": [\n    {\"product_id\": 1, \"quantity\": 12, \"unit_price\": 12000000}\n  ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/purchase-orders/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"purchase-orders",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:11:38 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "482"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Purchase order updated\",\n    \"data\": {\n        \"id\": 1,\n        \"po_number\": \"PO-20261027-0001\",\n        \"supplier_id\": 1,\n        \"supplier_name\": \"PT Distributor Utama\",\n        \"order_date\": \"2024-01-15\",\n        \"status\": \"draft\",\n        \"total_amount\": 144000000,\n        \"notes\": \"test update\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T02:44:35.853154Z\",\n        \"updated_at\": \"2026-10-27T03:11:38.699051Z\",\n        \"items\": [\n            {\n                \"id\": 6,\n                \"po_id\": 1,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 12,\n                \"unit_price\": 12000000,\n                \"total_price\": 144000000\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update PO Status",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"confirmed\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/purchase-orders/3/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"purchase-orders",
+										"3",
+										"status"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"status\": \"confirmed\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/purchase-orders/1/status",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"purchase-orders",
+												"1",
+												"status"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:12:00 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "59"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Purchase order status updated\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "goods receipts",
+					"item": [
+						{
+							"name": "List Goods Receipts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/goods-receipts?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"goods-receipts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/goods-receipts?page=1&per_page=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"goods-receipts"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "per_page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:16:02 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "287"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Goods receipts retrieved\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"gr_number\": \"GR-20261027-0001\",\n            \"po_id\": 3,\n            \"po_number\": \"PO-20261027-0003\",\n            \"receipt_date\": \"2024-01-16\",\n            \"notes\": \"test\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:15:39.146243Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Detail Goods Receipts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/goods-receipts/2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"goods-receipts",
+										"2"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/goods-receipts/2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"goods-receipts",
+												"2"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:19:00 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "357"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Goods receipt retrieved\",\n    \"data\": {\n        \"id\": 2,\n        \"gr_number\": \"GR-20261027-0001\",\n        \"po_id\": 3,\n        \"po_number\": \"PO-20261027-0003\",\n        \"receipt_date\": \"2024-01-16\",\n        \"notes\": \"test\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:15:39.146243Z\",\n        \"items\": [\n            {\n                \"id\": 2,\n                \"gr_id\": 2,\n                \"po_item_id\": 3,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity_received\": 10\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Goods Receipt",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"po_id\": 3,\n  \"receipt_date\": \"2024-01-16\",\n  \"notes\": \"test\",\n  \"items\": [\n    {\"po_item_id\": 3, \"product_id\": 1, \"quantity_received\": 10}\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/goods-receipts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"goods-receipts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"po_id\": 3,\n  \"receipt_date\": \"2024-01-16\",\n  \"notes\": \"test\",\n  \"items\": [\n    {\"po_item_id\": 3, \"product_id\": 1, \"quantity_received\": 10}\n  ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/goods-receipts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"goods-receipts"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:15:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "355"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Goods receipt created\",\n    \"data\": {\n        \"id\": 2,\n        \"gr_number\": \"GR-20261027-0001\",\n        \"po_id\": 3,\n        \"po_number\": \"PO-20261027-0003\",\n        \"receipt_date\": \"2024-01-16\",\n        \"notes\": \"test\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:15:39.146243Z\",\n        \"items\": [\n            {\n                \"id\": 2,\n                \"gr_id\": 2,\n                \"po_item_id\": 3,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity_received\": 10\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Current Stock Balances",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventory?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/inventory?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"inventory"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:20:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1201"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Inventory retrieved\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"product_id\": 3,\n            \"product_code\": \"PRD-003\",\n            \"product_name\": \"A4 Paper\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 1,\n            \"product_id\": 1,\n            \"product_code\": \"PRD-001\",\n            \"product_name\": \"Laptop Computer\",\n            \"quantity\": 10,\n            \"last_updated\": \"2026-10-27T03:15:39.146243Z\"\n        },\n        {\n            \"id\": 6,\n            \"product_id\": 6,\n            \"product_code\": \"LP-01\",\n            \"product_name\": \"Laptop Pro\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-27T02:16:14.982337Z\"\n        },\n        {\n            \"id\": 7,\n            \"product_id\": 9,\n            \"product_code\": \"LP-02\",\n            \"product_name\": \"Laptop Pro Updated\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-27T02:17:02.238724Z\"\n        },\n        {\n            \"id\": 8,\n            \"product_id\": 10,\n            \"product_code\": \"test-02\",\n            \"product_name\": \"Laptop Pro Updated\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-27T03:07:54.003642Z\"\n        },\n        {\n            \"id\": 5,\n            \"product_id\": 5,\n            \"product_code\": \"PRD-005\",\n            \"product_name\": \"Printer Ink\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 4,\n            \"product_id\": 4,\n            \"product_code\": \"PRD-004\",\n            \"product_name\": \"USB Cable\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 2,\n            \"product_id\": 2,\n            \"product_code\": \"PRD-002\",\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 0,\n            \"last_updated\": \"2026-10-21T04:37:05.878076Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 8\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Stock Movement History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventory/movements?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventory",
+								"movements"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/inventory/movements?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"movements"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:20:42 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "338"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Stock movements retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"product_id\": 1,\n            \"product_name\": \"Laptop Computer\",\n            \"movement_type\": \"in\",\n            \"quantity\": 10,\n            \"reference_type\": \"goods_receipt\",\n            \"reference_id\": 2,\n            \"notes\": \"Goods receipt from PO\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:15:39.146243Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Stock Adjustment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_id\": 1,\n  \"quantity\": -1,\n  \"reason\": \"Damaged goods\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/inventory/adjustments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventory",
+								"adjustments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product_id\": 1,\n  \"quantity\": -1,\n  \"reason\": \"Damaged goods\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/inventory/adjustments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"adjustments"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:21:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "201"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Stock adjustment created\",\n    \"data\": {\n        \"id\": 1,\n        \"product_id\": 1,\n        \"product_code\": \"PRD-001\",\n        \"product_name\": \"Laptop Computer\",\n        \"quantity\": 9,\n        \"last_updated\": \"2026-10-27T03:21:00.605361Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Sales",
+			"item": [
+				{
+					"name": "List Sales Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/sales-orders?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/sales-orders?page=1&per_page",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sales-orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:24:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "376"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales orders retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"so_number\": \"SO-20261027-0001\",\n            \"customer_id\": 1,\n            \"customer_name\": \"PT Maju Bersama\",\n            \"order_date\": \"2024-01-18\",\n            \"status\": \"draft\",\n            \"total_amount\": 30000000,\n            \"notes\": \"test\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:23:52.255595Z\",\n            \"updated_at\": \"2026-10-27T03:23:52.255595Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 20,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Sales Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\": 1,\n    \"order_date\": \"2024-01-18\",\n    \"notes\": \"test\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 2,\n            \"unit_price\": 15000000\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/sales-orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"customer_id\": 1,\n    \"order_date\": \"2024-01-18\",\n    \"notes\": \"test\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 2,\n            \"unit_price\": 15000000\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/sales-orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sales-orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:23:52 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "464"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales order created\",\n    \"data\": {\n        \"id\": 1,\n        \"so_number\": \"SO-20261027-0001\",\n        \"customer_id\": 1,\n        \"customer_name\": \"PT Maju Bersama\",\n        \"order_date\": \"2024-01-18\",\n        \"status\": \"draft\",\n        \"total_amount\": 30000000,\n        \"notes\": \"test\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:23:52.255595Z\",\n        \"updated_at\": \"2026-10-27T03:23:52.255595Z\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"so_id\": 1,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 2,\n                \"unit_price\": 15000000,\n                \"total_price\": 30000000\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Sales Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/sales-orders/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-orders",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/sales-orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sales-orders",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:25:02 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "466"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales order retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"so_number\": \"SO-20261027-0001\",\n        \"customer_id\": 1,\n        \"customer_name\": \"PT Maju Bersama\",\n        \"order_date\": \"2024-01-18\",\n        \"status\": \"draft\",\n        \"total_amount\": 30000000,\n        \"notes\": \"test\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:23:52.255595Z\",\n        \"updated_at\": \"2026-10-27T03:23:52.255595Z\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"so_id\": 1,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 2,\n                \"unit_price\": 15000000,\n                \"total_price\": 30000000\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Sales Order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_id\": 1,\n  \"order_date\": \"2024-01-18\",\n  \"notes\": \"test update\",\n  \"items\": [\n    {\"product_id\": 1, \"quantity\": 3, \"unit_price\": 15000000}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/sales-orders/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-orders",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"customer_id\": 1,\n  \"order_date\": \"2024-01-18\",\n  \"notes\": \"test update\",\n  \"items\": [\n    {\"product_id\": 1, \"quantity\": 3, \"unit_price\": 15000000}\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/sales-orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sales-orders",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:25:26 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "471"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales order updated\",\n    \"data\": {\n        \"id\": 1,\n        \"so_number\": \"SO-20261027-0001\",\n        \"customer_id\": 1,\n        \"customer_name\": \"PT Maju Bersama\",\n        \"order_date\": \"2024-01-18\",\n        \"status\": \"draft\",\n        \"total_amount\": 45000000,\n        \"notes\": \"test update\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:23:52.255595Z\",\n        \"updated_at\": \"2026-10-27T03:25:26.068187Z\",\n        \"items\": [\n            {\n                \"id\": 2,\n                \"so_id\": 1,\n                \"product_id\": 1,\n                \"product_name\": \"Laptop Computer\",\n                \"quantity\": 3,\n                \"unit_price\": 15000000,\n                \"total_price\": 45000000\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update SO Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"delivered\" //confirmed and delivered\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/sales-orders/1/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sales-orders",
+								"1",
+								"status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"confirmed\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/sales-orders/1/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sales-orders",
+										"1",
+										"status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 03:25:40 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales order status updated\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Finance",
+			"item": [
+				{
+					"name": "COA",
+					"item": [
+						{
+							"name": "List Accounts (Chart of Accounts)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/accounts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:26:52 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Accounts retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"code\": \"1000\",\n            \"name\": \"Assets\",\n            \"account_type\": \"asset\",\n            \"parent_id\": null,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 2,\n            \"code\": \"1100\",\n            \"name\": \"Cash\",\n            \"account_type\": \"asset\",\n            \"parent_id\": 1,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 3,\n            \"code\": \"1200\",\n            \"name\": \"Accounts Receivable\",\n            \"account_type\": \"asset\",\n            \"parent_id\": 1,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 4,\n            \"code\": \"1300\",\n            \"name\": \"Inventory\",\n            \"account_type\": \"asset\",\n            \"parent_id\": 1,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 5,\n            \"code\": \"2000\",\n            \"name\": \"Liabilities\",\n            \"account_type\": \"liability\",\n            \"parent_id\": null,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 6,\n            \"code\": \"2100\",\n            \"name\": \"Accounts Payable\",\n            \"account_type\": \"liability\",\n            \"parent_id\": 5,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 7,\n            \"code\": \"3000\",\n            \"name\": \"Equity\",\n            \"account_type\": \"equity\",\n            \"parent_id\": null,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 8,\n            \"code\": \"3100\",\n            \"name\": \"Owner Equity\",\n            \"account_type\": \"equity\",\n            \"parent_id\": 7,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 9,\n            \"code\": \"3200\",\n            \"name\": \"Retained Earnings\",\n            \"account_type\": \"equity\",\n            \"parent_id\": 7,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 10,\n            \"code\": \"4000\",\n            \"name\": \"Revenue\",\n            \"account_type\": \"revenue\",\n            \"parent_id\": null,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 11,\n            \"code\": \"4100\",\n            \"name\": \"Sales Revenue\",\n            \"account_type\": \"revenue\",\n            \"parent_id\": 10,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 12,\n            \"code\": \"5000\",\n            \"name\": \"Expenses\",\n            \"account_type\": \"expense\",\n            \"parent_id\": null,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 13,\n            \"code\": \"5100\",\n            \"name\": \"Cost of Goods Sold\",\n            \"account_type\": \"expense\",\n            \"parent_id\": 12,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        },\n        {\n            \"id\": 14,\n            \"code\": \"5200\",\n            \"name\": \"Operating Expenses\",\n            \"account_type\": \"expense\",\n            \"parent_id\": 12,\n            \"is_active\": true,\n            \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n            \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Detail Accounts (Chart of Accounts)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/accounts/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"accounts",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:29:30 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "236"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Account retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"code\": \"1000\",\n        \"name\": \"Assets\",\n        \"account_type\": \"asset\",\n        \"parent_id\": null,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-21T04:37:05.878076Z\",\n        \"updated_at\": \"2026-10-21T04:37:05.878076Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Accounts (Chart of Accounts)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Cash in Bank BCA-update\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts/17",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts",
+										"17"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Cash in Bank BCA-update\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/accounts/17",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"accounts",
+												"17"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:33:31 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "250"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Account updated\",\n    \"data\": {\n        \"id\": 17,\n        \"code\": \"11102\",\n        \"name\": \"Cash in Bank BCA-update\",\n        \"account_type\": \"asset\",\n        \"parent_id\": 1,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T03:31:59.871044Z\",\n        \"updated_at\": \"2026-10-27T03:33:31.561556Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"code\": \"11102\",\n  \"name\": \"Cash in Bank Mandiri\",\n  \"account_type\": \"asset\",\n  \"parent_id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"code\": \"11101\",\n  \"name\": \"Cash in Bank BCA\",\n  \"type\": \"asset\",\n  \"account_type\": \"asset\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/accounts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"accounts"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:28:00 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "246"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Account created\",\n    \"data\": {\n        \"id\": 15,\n        \"code\": \"11101\",\n        \"name\": \"Cash in Bank BCA\",\n        \"account_type\": \"asset\",\n        \"parent_id\": null,\n        \"is_active\": true,\n        \"created_at\": \"2026-10-27T03:28:00.646167Z\",\n        \"updated_at\": \"2026-10-27T03:28:00.646167Z\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "journal",
+					"item": [
+						{
+							"name": "Create Journal Entry",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"entry_date\": \"2024-01-20\",\n  \"description\": \"Adjustment\",\n  \"reference_type\": \"1\",\n  \"reference_id\": 1,\n  \"lines\": [\n    {\n      \"account_id\": 1,\n      \"debit\": 1000,\n      \"credit\": 0,\n      \"description\": \"test\"\n    },\n     {\n      \"account_id\": 15,\n      \"debit\": 0,\n      \"credit\": 1000,\n      \"description\": \"test\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/journal-entries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"journal-entries"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"entry_date\": \"2024-01-20\",\n  \"description\": \"Adjustment\",\n  \"reference_type\": \"1\",\n  \"reference_id\": 1,\n  \"lines\": [\n    {\n      \"account_id\": 1,\n      \"debit\": 1000,\n      \"credit\": 0,\n      \"description\": \"test\"\n    },\n     {\n      \"account_id\": 15,\n      \"debit\": 0,\n      \"credit\": 1000,\n      \"description\": \"test\"\n    }\n  ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/journal-entries",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"journal-entries"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:39:43 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "551"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Journal entry created\",\n    \"data\": {\n        \"id\": 2,\n        \"entry_number\": \"JE-20261027-0002\",\n        \"entry_date\": \"2024-01-20\",\n        \"description\": \"Adjustment\",\n        \"reference_type\": \"1\",\n        \"reference_id\": 1,\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:39:43.731016Z\",\n        \"lines\": [\n            {\n                \"id\": 3,\n                \"journal_entry_id\": 2,\n                \"account_id\": 1,\n                \"account_code\": \"1000\",\n                \"account_name\": \"Assets\",\n                \"debit\": 1000,\n                \"credit\": 0,\n                \"description\": \"test\"\n            },\n            {\n                \"id\": 4,\n                \"journal_entry_id\": 2,\n                \"account_id\": 15,\n                \"account_code\": \"11101\",\n                \"account_name\": \"Cash in Bank BCA-update\",\n                \"debit\": 0,\n                \"credit\": 1000,\n                \"description\": \"test\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List Journal Entries",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/journal-entries?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"journal-entries"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/journal-entries?page=1&per_page=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"journal-entries"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "per_page",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:40:19 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "516"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Journal entries retrieved\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"entry_number\": \"JE-20261027-0002\",\n            \"entry_date\": \"2024-01-20\",\n            \"description\": \"Adjustment\",\n            \"reference_type\": \"1\",\n            \"reference_id\": 1,\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:39:43.731016Z\"\n        },\n        {\n            \"id\": 1,\n            \"entry_number\": \"JE-GR-0002\",\n            \"entry_date\": \"2024-01-16\",\n            \"description\": \"Goods receipt GR-20261027-0001\",\n            \"reference_type\": \"goods_receipt\",\n            \"reference_id\": 2,\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:15:39.146243Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 2\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Detail Journal Entries",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/journal-entries/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"journal-entries",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/journal-entries/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"journal-entries",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:40:59 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "618"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Journal entry retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"entry_number\": \"JE-GR-0002\",\n        \"entry_date\": \"2024-01-16\",\n        \"description\": \"Goods receipt GR-20261027-0001\",\n        \"reference_type\": \"goods_receipt\",\n        \"reference_id\": 2,\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:15:39.146243Z\",\n        \"lines\": [\n            {\n                \"id\": 1,\n                \"journal_entry_id\": 1,\n                \"account_id\": 4,\n                \"account_code\": \"1300\",\n                \"account_name\": \"Inventory\",\n                \"debit\": 120000000,\n                \"credit\": 0,\n                \"description\": \"Inventory received\"\n            },\n            {\n                \"id\": 2,\n                \"journal_entry_id\": 1,\n                \"account_id\": 6,\n                \"account_code\": \"2100\",\n                \"account_name\": \"Accounts Payable\",\n                \"debit\": 0,\n                \"credit\": 120000000,\n                \"description\": \"Accounts payable recorded\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "payments",
+					"item": [
+						{
+							"name": "Detail Payments",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/payments/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"payments",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/payments/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"payments",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:44:44 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "291"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Payment retrieved\",\n    \"data\": {\n        \"id\": 1,\n        \"payment_number\": \"PMT-20261027-0001\",\n        \"payment_type\": \"payable\",\n        \"reference_id\": 1,\n        \"amount\": 120000000,\n        \"payment_date\": \"2024-01-20\",\n        \"payment_method\": \"bank_transfer\",\n        \"notes\": \"\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:42:16.699546Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Process Payment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"payment_type\": \"receivable\",\n  \"reference_id\": 1,\n  \"amount\": 45000000,\n  \"payment_date\": \"2024-01-20\",\n  \"payment_method\": \"bank_transfer\",\n  \"notes\": \"test\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/payments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"payments"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"payment_type\": \"payable\",\n  \"reference_id\": 1,\n  \"amount\": 120000000,\n  \"payment_date\": \"2024-01-20\",\n  \"payment_method\": \"bank_transfer\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/payments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"payments"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:42:16 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "291"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Payment processed\",\n    \"data\": {\n        \"id\": 1,\n        \"payment_number\": \"PMT-20261027-0001\",\n        \"payment_type\": \"payable\",\n        \"reference_id\": 1,\n        \"amount\": 120000000,\n        \"payment_date\": \"2024-01-20\",\n        \"payment_method\": \"bank_transfer\",\n        \"notes\": \"\",\n        \"created_by\": 1,\n        \"created_at\": \"2026-10-27T03:42:16.699546Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List Payments",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/payments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"payments"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200 success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/payments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"payments"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 27 Oct 2026 03:43:56 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "336"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Payments retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"payment_number\": \"PMT-20261027-0001\",\n            \"payment_type\": \"payable\",\n            \"reference_id\": 1,\n            \"amount\": 120000000,\n            \"payment_date\": \"2024-01-20\",\n            \"payment_method\": \"bank_transfer\",\n            \"notes\": \"\",\n            \"created_by\": 1,\n            \"created_at\": \"2026-10-27T03:42:16.699546Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 20,\n        \"total\": 1\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Accounts Payable",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/accounts-payable?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts-payable"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts-payable?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts-payable"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 04:56:19 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "381"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Accounts payable retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"supplier_id\": 1,\n            \"supplier_name\": \"PT Distributor Utama\",\n            \"po_id\": 3,\n            \"po_number\": \"PO-20261027-0003\",\n            \"amount\": 120000000,\n            \"paid_amount\": 120000000,\n            \"status\": \"paid\",\n            \"due_date\": \"2024-01-16\",\n            \"created_at\": \"2026-10-27T03:15:39.146243Z\",\n            \"updated_at\": \"2026-10-27T03:42:16.699546Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Accounts Receivable",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/accounts-receivable?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts-receivable"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/accounts-receivable?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"accounts-receivable"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 04:56:40 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "377"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Accounts receivable retrieved\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"customer_id\": 1,\n            \"customer_name\": \"PT Maju Bersama\",\n            \"so_id\": 1,\n            \"so_number\": \"SO-20261027-0001\",\n            \"amount\": 45000000,\n            \"paid_amount\": 45000000,\n            \"status\": \"paid\",\n            \"due_date\": \"2024-01-18\",\n            \"created_at\": \"2026-10-27T04:55:20.824632Z\",\n            \"updated_at\": \"2026-10-27T04:55:36.106545Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Sales Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/sales?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"sales"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/sales?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"sales"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 04:57:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "317"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Sales report generated\",\n    \"data\": {\n        \"details\": [\n            {\n                \"so_number\": \"SO-20261027-0001\",\n                \"customer_name\": \"PT Maju Bersama\",\n                \"order_date\": \"2024-01-18\",\n                \"status\": \"delivered\",\n                \"total_amount\": 45000000\n            }\n        ],\n        \"summary\": {\n            \"period_end\": \"2026-12-31\",\n            \"period_start\": \"2024-01-01\",\n            \"total_orders\": 1,\n            \"total_sales\": 45000000\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Purchase Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/purchases?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"purchases"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/purchases?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"purchases"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 04:57:35 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "614"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Purchase report generated\",\n    \"data\": {\n        \"details\": [\n            {\n                \"po_number\": \"PO-20261027-0002\",\n                \"supplier_name\": \"PT Distributor Utama\",\n                \"order_date\": \"2024-01-15\",\n                \"status\": \"draft\",\n                \"total_amount\": 120000000\n            },\n            {\n                \"po_number\": \"PO-20261027-0001\",\n                \"supplier_name\": \"PT Distributor Utama\",\n                \"order_date\": \"2024-01-15\",\n                \"status\": \"confirmed\",\n                \"total_amount\": 144000000\n            },\n            {\n                \"po_number\": \"PO-20261027-0003\",\n                \"supplier_name\": \"PT Distributor Utama\",\n                \"order_date\": \"2024-01-15\",\n                \"status\": \"received\",\n                \"total_amount\": 120000000\n            }\n        ],\n        \"summary\": {\n            \"period_end\": \"2026-12-31\",\n            \"period_start\": \"2024-01-01\",\n            \"total_orders\": 3,\n            \"total_purchases\": 384000000\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Inventory Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/inventory?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/inventory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"inventory"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 04:57:52 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1171"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Inventory report generated\",\n    \"data\": {\n        \"details\": [\n            {\n                \"product_code\": \"PRD-003\",\n                \"product_name\": \"A4 Paper\",\n                \"category_name\": \"Office Supplies\",\n                \"quantity\": 0,\n                \"cost\": 40000,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"PRD-001\",\n                \"product_name\": \"Laptop Computer\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 6,\n                \"cost\": 12000000,\n                \"total_value\": 72000000\n            },\n            {\n                \"product_code\": \"LP-01\",\n                \"product_name\": \"Laptop Pro\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 0,\n                \"cost\": 0,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"LP-02\",\n                \"product_name\": \"Laptop Pro Updated\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 0,\n                \"cost\": 0,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"test-02\",\n                \"product_name\": \"Laptop Pro Updated\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 0,\n                \"cost\": 0,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"PRD-005\",\n                \"product_name\": \"Printer Ink\",\n                \"category_name\": \"Office Supplies\",\n                \"quantity\": 0,\n                \"cost\": 200000,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"PRD-004\",\n                \"product_name\": \"USB Cable\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 0,\n                \"cost\": 35000,\n                \"total_value\": 0\n            },\n            {\n                \"product_code\": \"PRD-002\",\n                \"product_name\": \"Wireless Mouse\",\n                \"category_name\": \"Electronics\",\n                \"quantity\": 0,\n                \"cost\": 150000,\n                \"total_value\": 0\n            }\n        ],\n        \"summary\": {\n            \"total_items\": 8,\n            \"total_value\": 72000000\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Stock Movements Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/stock-movements?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"stock-movements"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/stock-movements?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"stock-movements"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:00:04 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "668"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Stock movement report generated\",\n    \"data\": [\n        {\n            \"created_at\": \"2026-10-27 04:55:20.824632+00\",\n            \"movement_type\": \"out\",\n            \"notes\": \"Goods issued for sales\",\n            \"product_code\": \"PRD-001\",\n            \"product_name\": \"Laptop Computer\",\n            \"quantity\": 3,\n            \"reference_type\": \"sales_order\"\n        },\n        {\n            \"created_at\": \"2026-10-27 03:21:00.605361+00\",\n            \"movement_type\": \"adjustment\",\n            \"notes\": \"\",\n            \"product_code\": \"PRD-001\",\n            \"product_name\": \"Laptop Computer\",\n            \"quantity\": -1,\n            \"reference_type\": \"adjustment\"\n        },\n        {\n            \"created_at\": \"2026-10-27 03:15:39.146243+00\",\n            \"movement_type\": \"in\",\n            \"notes\": \"Goods receipt from PO\",\n            \"product_code\": \"PRD-001\",\n            \"product_name\": \"Laptop Computer\",\n            \"quantity\": 10,\n            \"reference_type\": \"goods_receipt\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Accounts Payable Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/accounts-payable?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"accounts-payable"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/accounts-payable?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"accounts-payable"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:00:33 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Accounts payable report generated\",\n    \"data\": {\n        \"details\": [\n            {\n                \"amount\": 120000000,\n                \"due_date\": \"2024-01-16\",\n                \"outstanding\": 0,\n                \"paid\": 120000000,\n                \"status\": \"paid\",\n                \"supplier\": \"PT Distributor Utama\"\n            }\n        ],\n        \"total_outstanding\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Accounts Receivable Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/accounts-receivable?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"accounts-receivable"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/accounts-receivable?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"accounts-receivable"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:01:03 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "230"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Accounts receivable report generated\",\n    \"data\": {\n        \"details\": [\n            {\n                \"amount\": 45000000,\n                \"customer\": \"PT Maju Bersama\",\n                \"due_date\": \"2024-01-18\",\n                \"outstanding\": 0,\n                \"paid\": 45000000,\n                \"status\": \"paid\"\n            }\n        ],\n        \"total_outstanding\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Cash Flow Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/cash-flow?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"cash-flow"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/cash-flow?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"cash-flow"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:01:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Cash flow report generated\",\n    \"data\": {\n        \"cash_inflow\": 45000000,\n        \"cash_outflow\": 120000000,\n        \"net_cash_flow\": -75000000,\n        \"period_end\": \"2026-12-31\",\n        \"period_start\": \"2024-01-01\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Profit & Loss Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/profit-loss?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"profit-loss"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/profit-loss?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"profit-loss"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:02:10 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "207"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Profit & Loss report generated\",\n    \"data\": {\n        \"expenses\": 36000000,\n        \"net_profit\": 9000000,\n        \"period_end\": \"2026-12-31\",\n        \"period_start\": \"2024-01-01\",\n        \"profit_margin\": 20,\n        \"revenue\": 45000000\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Balance Sheet Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/balance-sheet?start_date=2024-01-01&end_date=2026-12-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"balance-sheet"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2026-12-31"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/reports/balance-sheet?start_date=2024-01-01&end_date=2026-12-31",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"reports",
+										"balance-sheet"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 27 Oct 2026 05:02:39 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1120"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Balance sheet generated\",\n    \"data\": {\n        \"as_of_date\": \"2026-10-27\",\n        \"assets\": [\n            {\n                \"account_code\": \"1100\",\n                \"account_name\": \"Cash\",\n                \"account_type\": \"asset\",\n                \"debit\": 45000000,\n                \"credit\": 120000000,\n                \"balance\": -75000000\n            },\n            {\n                \"account_code\": \"11102\",\n                \"account_name\": \"Cash in Bank BCA-update\",\n                \"account_type\": \"asset\",\n                \"debit\": 0,\n                \"credit\": 0,\n                \"balance\": 0\n            },\n            {\n                \"account_code\": \"1200\",\n                \"account_name\": \"Accounts Receivable\",\n                \"account_type\": \"asset\",\n                \"debit\": 45000000,\n                \"credit\": 45000000,\n                \"balance\": 0\n            },\n            {\n                \"account_code\": \"1300\",\n                \"account_name\": \"Inventory\",\n                \"account_type\": \"asset\",\n                \"debit\": 120000000,\n                \"credit\": 36000000,\n                \"balance\": 84000000\n            }\n        ],\n        \"equity\": [\n            {\n                \"account_code\": \"3100\",\n                \"account_name\": \"Owner Equity\",\n                \"account_type\": \"equity\",\n                \"debit\": 0,\n                \"credit\": 0,\n                \"balance\": 0\n            },\n            {\n                \"account_code\": \"3200\",\n                \"account_name\": \"Retained Earnings\",\n                \"account_type\": \"equity\",\n                \"debit\": 0,\n                \"credit\": 0,\n                \"balance\": 0\n            }\n        ],\n        \"is_balanced\": true,\n        \"liabilities\": [\n            {\n                \"account_code\": \"2100\",\n                \"account_name\": \"Accounts Payable\",\n                \"account_type\": \"liability\",\n                \"debit\": 120000000,\n                \"credit\": 120000000,\n                \"balance\": 0\n            }\n        ],\n        \"total_assets\": 9000000,\n        \"total_equity\": 9000000,\n        \"total_liabilities\": 0,\n        \"total_liabilities_and_equity\": 9000000\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
