@@ -215,6 +215,133 @@ func (r *FinanceRepo) CreateJournalEntry(ctx context.Context, req model.CreateJo
 	return r.FindJournalEntryByID(ctx, jeID)
 }
 
+// ---- Opening Balance ----
+
+func (r *FinanceRepo) generateOBNumber(ctx context.Context) (string, error) {
+	var count int
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) + 1 FROM journal_entries WHERE reference_type = 'opening_balance'`).Scan(&count)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("OB-%s-%04d", time.Now().Format("20060102"), count), nil
+}
+
+func (r *FinanceRepo) CreateOpeningBalance(ctx context.Context, req model.CreateOpeningBalanceRequest, userID int) (*model.OpeningBalanceResponse, error) {
+	if len(req.Lines) == 0 {
+		return nil, fmt.Errorf("minimal 1 baris diperlukan")
+	}
+	if req.EntryDate == "" {
+		return nil, fmt.Errorf("tanggal wajib diisi")
+	}
+
+	var totalDebit, totalCredit float64
+	for _, l := range req.Lines {
+		if l.Debit < 0 || l.Credit < 0 {
+			return nil, fmt.Errorf("nilai debit/kredit tidak boleh negatif")
+		}
+		if l.Debit > 0 && l.Credit > 0 {
+			return nil, fmt.Errorf("setiap baris hanya boleh memiliki debit ATAU kredit, bukan keduanya")
+		}
+		totalDebit += l.Debit
+		totalCredit += l.Credit
+	}
+	if fmt.Sprintf("%.2f", totalDebit) != fmt.Sprintf("%.2f", totalCredit) {
+		return nil, fmt.Errorf("saldo awal tidak seimbang: total debit (%.2f) != total kredit (%.2f)", totalDebit, totalCredit)
+	}
+
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
+
+	obNumber, err := r.generateOBNumber(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	desc := req.Description
+	if desc == "" {
+		desc = "Opening balance / Saldo awal"
+	}
+
+	var jeID int
+	err = tx.QueryRow(ctx,
+		`INSERT INTO journal_entries (entry_number, entry_date, description, reference_type, created_by)
+		 VALUES ($1, $2, $3, 'opening_balance', $4) RETURNING id`,
+		obNumber, req.EntryDate, desc, userID).Scan(&jeID)
+	if err != nil {
+		return nil, fmt.Errorf("gagal membuat jurnal saldo awal: %w", err)
+	}
+
+	for _, l := range req.Lines {
+		_, err = tx.Exec(ctx,
+			`INSERT INTO journal_entry_lines (journal_entry_id, account_id, debit, credit, description)
+			 VALUES ($1, $2, $3, $4, 'Saldo awal')`,
+			jeID, l.AccountID, l.Debit, l.Credit)
+		if err != nil {
+			return nil, fmt.Errorf("gagal menyimpan baris jurnal: %w", err)
+		}
+	}
+
+	if err = tx.Commit(ctx); err != nil {
+		return nil, err
+	}
+
+	je, err := r.FindJournalEntryByID(ctx, jeID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.OpeningBalanceResponse{
+		ID:          je.ID,
+		EntryNumber: je.EntryNumber,
+		EntryDate:   je.EntryDate,
+		Description: je.Description,
+		Lines:       je.Lines,
+		TotalDebit:  totalDebit,
+		TotalCredit: totalCredit,
+		IsBalanced:  true,
+		CreatedAt:   je.CreatedAt.Format(time.RFC3339),
+	}, nil
+}
+
+func (r *FinanceRepo) ListOpeningBalances(ctx context.Context, page, perPage int) ([]model.OpeningBalanceSummary, int, error) {
+	var total int
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM journal_entries WHERE reference_type = 'opening_balance'`).Scan(&total)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * perPage
+	rows, err := r.db.Query(ctx,
+		`SELECT je.id, je.entry_number, je.entry_date::text, COALESCE(je.description,''),
+		        COALESCE(SUM(jel.debit),0), COALESCE(SUM(jel.credit),0), COUNT(jel.id)
+		 FROM journal_entries je
+		 LEFT JOIN journal_entry_lines jel ON je.id = jel.journal_entry_id
+		 WHERE je.reference_type = 'opening_balance'
+		 GROUP BY je.id, je.entry_number, je.entry_date, je.description
+		 ORDER BY je.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	var list []model.OpeningBalanceSummary
+	for rows.Next() {
+		var s model.OpeningBalanceSummary
+		if err := rows.Scan(&s.ID, &s.EntryNumber, &s.EntryDate, &s.Description,
+			&s.TotalDebit, &s.TotalCredit, &s.LineCount); err != nil {
+			return nil, 0, err
+		}
+		s.IsBalanced = fmt.Sprintf("%.2f", s.TotalDebit) == fmt.Sprintf("%.2f", s.TotalCredit)
+		list = append(list, s)
+	}
+	return list, total, nil
+}
+
 // ---- Accounts Payable ----
 
 func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int, q string) ([]model.AccountPayable, int, error) {

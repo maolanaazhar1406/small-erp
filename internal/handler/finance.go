@@ -130,6 +130,57 @@ func (h *FinanceHandler) GetJournalEntry(w http.ResponseWriter, r *http.Request)
 	model.RespondSuccess(w, http.StatusOK, "Journal entry retrieved", entry)
 }
 
+// ---- Opening Balance ----
+
+func (h *FinanceHandler) ListOpeningBalances(w http.ResponseWriter, r *http.Request) {
+	page, perPage := model.GetPaginationParams(r)
+	list, total, err := h.repo.ListOpeningBalances(r.Context(), page, perPage)
+	if err != nil {
+		model.RespondError(w, http.StatusInternalServerError, "Gagal mengambil data saldo awal")
+		return
+	}
+	model.RespondSuccessWithMeta(w, http.StatusOK, "Saldo awal berhasil diambil", list,
+		&model.Meta{Page: page, PerPage: perPage, Total: total})
+}
+
+func (h *FinanceHandler) CreateOpeningBalance(w http.ResponseWriter, r *http.Request) {
+	var req model.CreateOpeningBalanceRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		model.RespondError(w, http.StatusBadRequest, "Request body tidak valid")
+		return
+	}
+
+	var errs []model.FieldError
+	if req.EntryDate == "" {
+		errs = append(errs, model.FieldError{Field: "entry_date", Message: "wajib diisi (format: YYYY-MM-DD)"})
+	}
+	if len(req.Lines) < 2 {
+		errs = append(errs, model.FieldError{Field: "lines", Message: "minimal 2 baris (misalnya: Cash debit, Owner Equity kredit)"})
+	}
+	if len(errs) > 0 {
+		model.RespondValidationError(w, "Validasi gagal", errs)
+		return
+	}
+
+	userID := middleware.GetUserIDFromContext(r.Context())
+	result, err := h.repo.CreateOpeningBalance(r.Context(), req, userID)
+	if err != nil {
+		model.RespondError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	model.RespondSuccess(w, http.StatusCreated, "Saldo awal berhasil disimpan", result)
+}
+
+func (h *FinanceHandler) GetOpeningBalance(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+	entry, err := h.repo.FindJournalEntryByID(r.Context(), id)
+	if err != nil {
+		model.RespondError(w, http.StatusNotFound, "Saldo awal tidak ditemukan")
+		return
+	}
+	model.RespondSuccess(w, http.StatusOK, "Saldo awal berhasil diambil", entry)
+}
+
 // ---- AP / AR ----
 
 func (h *FinanceHandler) ListAP(w http.ResponseWriter, r *http.Request) {

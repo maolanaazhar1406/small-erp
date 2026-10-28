@@ -113,3 +113,41 @@ type CreatePaymentRequest struct {
 	PaymentMethod string  `json:"payment_method"`
 	Notes         string  `json:"notes"`
 }
+
+// ---- Opening Balance ----
+
+type OpeningBalanceLine struct {
+	AccountID int     `json:"account_id"`
+	Debit     float64 `json:"debit"`
+	Credit    float64 `json:"credit"`
+}
+
+type CreateOpeningBalanceRequest struct {
+	EntryDate   string               `json:"entry_date"`
+	Description string               `json:"description"`
+	Lines       []OpeningBalanceLine `json:"lines"`
+}
+
+type OpeningBalanceResponse struct {
+	ID          int                `json:"id"`
+	EntryNumber string             `json:"entry_number"`
+	EntryDate   string             `json:"entry_date"`
+	Description string             `json:"description"`
+	Lines       []JournalEntryLine `json:"lines"`
+	TotalDebit  float64            `json:"total_debit"`
+	TotalCredit float64            `json:"total_credit"`
+	IsBalanced  bool               `json:"is_balanced"`
+	CreatedAt   string             `json:"created_at"`
+}
+
+type OpeningBalanceSummary struct {
+	ID          int     `json:"id"`
+	EntryNumber string  `json:"entry_number"`
+	EntryDate   string  `json:"entry_date"`
+	Description string  `json:"description"`
+	TotalDebit  float64 `json:"total_debit"`
+	TotalCredit float64 `json:"total_credit"`
+	LineCount   int     `json:"line_count"`
+	IsBalanced  bool    `json:"is_balanced"`
+}
+

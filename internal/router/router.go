@@ -141,6 +141,11 @@ func NewRouter(db *pgxpool.Pool, cfg *config.Config) *chi.Mux {
 			r.Post("/journal-entries", middleware.RequirePermission("finance:create", financeHandler.CreateJournalEntry))
 			r.Get("/journal-entries/{id}", middleware.RequirePermission("finance:read", financeHandler.GetJournalEntry))
 
+			// Opening balance (saldo awal)
+			r.Get("/opening-balance", middleware.RequirePermission("finance:read", financeHandler.ListOpeningBalances))
+			r.Post("/opening-balance", middleware.RequirePermission("finance:create", financeHandler.CreateOpeningBalance))
+			r.Get("/opening-balance/{id}", middleware.RequirePermission("finance:read", financeHandler.GetOpeningBalance))
+
 			// Payments
 			paymentHandler := handler.NewPaymentHandler(db)
 			r.Get("/payments", middleware.RequirePermission("finance:read", paymentHandler.List))
