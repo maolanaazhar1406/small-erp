@@ -40,6 +40,11 @@ func NewRouter(db *pgxpool.Pool, cfg *config.Config) *chi.Mux {
 		r.Group(func(r chi.Router) {
 			r.Use(middleware.Auth(cfg.JWTSecret))
 
+			r.Use(middleware.Audit(db, cfg.JWTSecret))
+
+			auditHandler := handler.NewAuditHandler(db)
+			r.Get("/audit-logs", middleware.RequirePermission("audit:read", auditHandler.List))
+
 			// User management
 			userHandler := handler.NewUserHandler(db)
 			r.Get("/users", middleware.RequirePermission("users:read", userHandler.List))
