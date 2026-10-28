@@ -222,7 +222,7 @@ func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int) ([]model.Ac
 
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
-		`SELECT ap.id, ap.supplier_id, s.name, ap.po_id, COALESCE(po.po_number, ''),
+		`SELECT ap.id, ap.supplier_id, s.name, ap.po_id, COALESCE(po.po_number, '') as po_number,
 		        ap.amount, ap.paid_amount, ap.status, COALESCE(ap.due_date::text, ''), ap.created_at, ap.updated_at
 		 FROM accounts_payable ap
 		 JOIN suppliers s ON ap.supplier_id = s.id
@@ -256,7 +256,7 @@ func (r *FinanceRepo) ListAR(ctx context.Context, page, perPage int) ([]model.Ac
 
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
-		`SELECT ar.id, ar.customer_id, c.name, ar.so_id, COALESCE(so.so_number, ''),
+		`SELECT ar.id, ar.customer_id, c.name, ar.so_id, COALESCE(so.so_number, '') as so_number,
 		        ar.amount, ar.paid_amount, ar.status, COALESCE(ar.due_date::text, ''), ar.created_at, ar.updated_at
 		 FROM accounts_receivable ar
 		 JOIN customers c ON ar.customer_id = c.id
@@ -299,9 +299,12 @@ func (r *FinanceRepo) ListPayments(ctx context.Context, page, perPage int) ([]mo
 
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
-		`SELECT id, payment_number, payment_type, reference_id, amount, payment_date, payment_method,
-		        COALESCE(notes, ''), COALESCE(created_by, 0), created_at
-		 FROM payments ORDER BY id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		`SELECT p.id, payment_number, payment_type, reference_id, coalesce(po.po_number, so.so_number ) as number, amount, payment_date, payment_method,
+		        COALESCE(p.notes, ''), COALESCE(p.created_by, 0), p.created_at
+		 FROM payments p
+		 left join purchase_orders po on p.reference_id = po.id and p.payment_type = 'payable'
+		 left join sales_orders so on p.reference_id = so.id and p.payment_type = 'receivable'
+		 ORDER BY id DESC LIMIT $1 OFFSET $2`, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -311,7 +314,7 @@ func (r *FinanceRepo) ListPayments(ctx context.Context, page, perPage int) ([]mo
 	for rows.Next() {
 		var p model.Payment
 		var paymentDate time.Time
-		if err := rows.Scan(&p.ID, &p.PaymentNumber, &p.PaymentType, &p.ReferenceID, &p.Amount,
+		if err := rows.Scan(&p.ID, &p.PaymentNumber, &p.PaymentType, &p.ReferenceID, &p.ReferenceNumber, &p.Amount,
 			&paymentDate, &p.PaymentMethod, &p.Notes, &p.CreatedBy, &p.CreatedAt); err != nil {
 			return nil, 0, err
 		}
@@ -325,10 +328,13 @@ func (r *FinanceRepo) FindPaymentByID(ctx context.Context, id int) (*model.Payme
 	p := &model.Payment{}
 	var paymentDate time.Time
 	err := r.db.QueryRow(ctx,
-		`SELECT id, payment_number, payment_type, reference_id, amount, payment_date, payment_method,
-		        COALESCE(notes, ''), COALESCE(created_by, 0), created_at
-		 FROM payments WHERE id = $1`, id).Scan(
-		&p.ID, &p.PaymentNumber, &p.PaymentType, &p.ReferenceID, &p.Amount,
+		`SELECT p.id, payment_number, payment_type, reference_id, coalesce(po.po_number, so.so_number ) as number, amount, payment_date, payment_method,
+		        COALESCE(p.notes, ''), COALESCE(p.created_by, 0), p.created_at
+		 FROM payments p
+		 left join purchase_orders po on p.reference_id = po.id and p.payment_type = 'payable'
+		 left join sales_orders so on p.reference_id = so.id and p.payment_type = 'receivable'
+		 WHERE p.id = $1`, id).Scan(
+		&p.ID, &p.PaymentNumber, &p.PaymentType, &p.ReferenceID, &p.ReferenceNumber, &p.Amount,
 		&paymentDate, &p.PaymentMethod, &p.Notes, &p.CreatedBy, &p.CreatedAt)
 	if err != nil {
 		return nil, err

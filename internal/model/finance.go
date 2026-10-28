@@ -49,10 +49,10 @@ type JournalEntryLine struct {
 }
 
 type CreateJournalEntryRequest struct {
-	EntryDate     string                      `json:"entry_date"`
-	Description   string                      `json:"description"`
-	ReferenceType string                      `json:"reference_type"`
-	ReferenceID   int                         `json:"reference_id"`
+	EntryDate     string                          `json:"entry_date"`
+	Description   string                          `json:"description"`
+	ReferenceType string                          `json:"reference_type"`
+	ReferenceID   int                             `json:"reference_id"`
 	Lines         []CreateJournalEntryLineRequest `json:"lines"`
 }
 
@@ -92,16 +92,17 @@ type AccountReceivable struct {
 }
 
 type Payment struct {
-	ID            int       `json:"id"`
-	PaymentNumber string    `json:"payment_number"`
-	PaymentType   string    `json:"payment_type"`
-	ReferenceID   int       `json:"reference_id"`
-	Amount        float64   `json:"amount"`
-	PaymentDate   string    `json:"payment_date"`
-	PaymentMethod string    `json:"payment_method"`
-	Notes         string    `json:"notes"`
-	CreatedBy     int       `json:"created_by"`
-	CreatedAt     time.Time `json:"created_at"`
+	ID              int       `json:"id"`
+	PaymentNumber   string    `json:"payment_number"`
+	PaymentType     string    `json:"payment_type"`
+	ReferenceID     int       `json:"reference_id"`
+	ReferenceNumber string    `json:"number"`
+	Amount          float64   `json:"amount"`
+	PaymentDate     string    `json:"payment_date"`
+	PaymentMethod   string    `json:"payment_method"`
+	Notes           string    `json:"notes"`
+	CreatedBy       int       `json:"created_by"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 
 type CreatePaymentRequest struct {
