@@ -45,9 +45,12 @@ func (r *UserRepo) FindByID(ctx context.Context, id int) (*model.User, error) {
 	return user, nil
 }
 
-func (r *UserRepo) List(ctx context.Context, page, perPage int) ([]model.User, int, error) {
+func (r *UserRepo) List(ctx context.Context, page, perPage int, q string) ([]model.User, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM users`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM users u JOIN roles r ON u.role_id = r.id
+		 WHERE ($1 = '' OR u.username ILIKE '%' || $1 || '%' OR u.full_name ILIKE '%' || $1 || '%'
+		        OR u.email ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -56,7 +59,9 @@ func (r *UserRepo) List(ctx context.Context, page, perPage int) ([]model.User, i
 	rows, err := r.db.Query(ctx,
 		`SELECT u.id, u.username, u.email, u.full_name, u.role_id, r.name, u.is_active, u.created_at, u.updated_at
 		 FROM users u JOIN roles r ON u.role_id = r.id
-		 ORDER BY u.id LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR u.username ILIKE '%' || $1 || '%' OR u.full_name ILIKE '%' || $1 || '%'
+		        OR u.email ILIKE '%' || $1 || '%')
+		 ORDER BY u.id LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

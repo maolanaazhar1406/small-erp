@@ -18,9 +18,12 @@ func NewPartnerRepo(db *pgxpool.Pool) *PartnerRepo {
 
 // ---- Customers ----
 
-func (r *PartnerRepo) ListCustomers(ctx context.Context, page, perPage int) ([]model.Customer, int, error) {
+func (r *PartnerRepo) ListCustomers(ctx context.Context, page, perPage int, q string) ([]model.Customer, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM customers`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM customers
+		 WHERE ($1 = '' OR code ILIKE '%' || $1 || '%' OR name ILIKE '%' || $1 || '%'
+		        OR email ILIKE '%' || $1 || '%' OR phone ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -28,7 +31,10 @@ func (r *PartnerRepo) ListCustomers(ctx context.Context, page, perPage int) ([]m
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
 		`SELECT id, code, name, email, phone, address, is_active, created_at, updated_at
-		 FROM customers ORDER BY id LIMIT $1 OFFSET $2`, perPage, offset)
+		 FROM customers
+		 WHERE ($1 = '' OR code ILIKE '%' || $1 || '%' OR name ILIKE '%' || $1 || '%'
+		        OR email ILIKE '%' || $1 || '%' OR phone ILIKE '%' || $1 || '%')
+		 ORDER BY id LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -115,9 +121,12 @@ func (r *PartnerRepo) DeleteCustomer(ctx context.Context, id int) error {
 
 // ---- Suppliers ----
 
-func (r *PartnerRepo) ListSuppliers(ctx context.Context, page, perPage int) ([]model.Supplier, int, error) {
+func (r *PartnerRepo) ListSuppliers(ctx context.Context, page, perPage int, q string) ([]model.Supplier, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM suppliers`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM suppliers
+		 WHERE ($1 = '' OR code ILIKE '%' || $1 || '%' OR name ILIKE '%' || $1 || '%'
+		        OR email ILIKE '%' || $1 || '%' OR phone ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -125,7 +134,10 @@ func (r *PartnerRepo) ListSuppliers(ctx context.Context, page, perPage int) ([]m
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
 		`SELECT id, code, name, email, phone, address, is_active, created_at, updated_at
-		 FROM suppliers ORDER BY id LIMIT $1 OFFSET $2`, perPage, offset)
+		 FROM suppliers
+		 WHERE ($1 = '' OR code ILIKE '%' || $1 || '%' OR name ILIKE '%' || $1 || '%'
+		        OR email ILIKE '%' || $1 || '%' OR phone ILIKE '%' || $1 || '%')
+		 ORDER BY id LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

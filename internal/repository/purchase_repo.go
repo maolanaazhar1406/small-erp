@@ -26,9 +26,11 @@ func (r *PurchaseRepo) generatePONumber(ctx context.Context) (string, error) {
 	return fmt.Sprintf("PO-%s-%04d", time.Now().Format("20060102"), count), nil
 }
 
-func (r *PurchaseRepo) List(ctx context.Context, page, perPage int) ([]model.PurchaseOrder, int, error) {
+func (r *PurchaseRepo) List(ctx context.Context, page, perPage int, q string) ([]model.PurchaseOrder, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM purchase_orders`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM purchase_orders po JOIN suppliers s ON po.supplier_id = s.id
+		 WHERE ($1 = '' OR po.po_number ILIKE '%' || $1 || '%' OR s.name ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -38,7 +40,8 @@ func (r *PurchaseRepo) List(ctx context.Context, page, perPage int) ([]model.Pur
 		`SELECT po.id, po.po_number, po.supplier_id, s.name, po.order_date, po.status,
 		        po.total_amount, po.notes, po.created_by, po.created_at, po.updated_at
 		 FROM purchase_orders po JOIN suppliers s ON po.supplier_id = s.id
-		 ORDER BY po.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR po.po_number ILIKE '%' || $1 || '%' OR s.name ILIKE '%' || $1 || '%')
+		 ORDER BY po.id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -254,9 +257,11 @@ func (r *PurchaseRepo) generateGRNumber(ctx context.Context) (string, error) {
 	return fmt.Sprintf("GR-%s-%04d", time.Now().Format("20060102"), count), nil
 }
 
-func (r *PurchaseRepo) ListGoodsReceipts(ctx context.Context, page, perPage int) ([]model.GoodsReceipt, int, error) {
+func (r *PurchaseRepo) ListGoodsReceipts(ctx context.Context, page, perPage int, q string) ([]model.GoodsReceipt, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM goods_receipts`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM goods_receipts gr JOIN purchase_orders po ON gr.po_id = po.id
+		 WHERE ($1 = '' OR gr.gr_number ILIKE '%' || $1 || '%' OR po.po_number ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -265,7 +270,8 @@ func (r *PurchaseRepo) ListGoodsReceipts(ctx context.Context, page, perPage int)
 	rows, err := r.db.Query(ctx,
 		`SELECT gr.id, gr.gr_number, gr.po_id, po.po_number, gr.receipt_date, gr.notes, gr.created_by, gr.created_at
 		 FROM goods_receipts gr JOIN purchase_orders po ON gr.po_id = po.id
-		 ORDER BY gr.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR gr.gr_number ILIKE '%' || $1 || '%' OR po.po_number ILIKE '%' || $1 || '%')
+		 ORDER BY gr.id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

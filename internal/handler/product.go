@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -23,7 +24,8 @@ func NewCategoryHandler(db *pgxpool.Pool) *CategoryHandler {
 
 func (h *CategoryHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	cats, total, err := h.repo.ListCategories(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	cats, total, err := h.repo.ListCategories(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list categories")
 		return
@@ -95,7 +97,8 @@ func NewUnitHandler(db *pgxpool.Pool) *UnitHandler {
 
 func (h *UnitHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	units, total, err := h.repo.ListUnits(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	units, total, err := h.repo.ListUnits(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list units")
 		return
@@ -170,7 +173,8 @@ func NewProductHandler(db *pgxpool.Pool) *ProductHandler {
 
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	products, total, err := h.repo.ListProducts(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	products, total, err := h.repo.ListProducts(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list products")
 		return

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -22,7 +23,8 @@ func NewUserHandler(db *pgxpool.Pool) *UserHandler {
 
 func (h *UserHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	users, total, err := h.repo.List(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	users, total, err := h.repo.List(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list users")
 		return

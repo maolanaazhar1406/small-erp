@@ -31,6 +31,11 @@ func NewRouter(db *pgxpool.Pool, cfg *config.Config) *chi.Mux {
 		authHandler := handler.NewAuthHandler(db, cfg)
 		r.Post("/auth/login", authHandler.Login)
 
+		sessionHandler := handler.NewSessionHandler(db, cfg)
+		r.Post("/auth/login", authHandler.Login)
+		r.Post("/auth/refresh", sessionHandler.Refresh)
+		r.Post("/auth/logout", sessionHandler.Logout)
+
 		// Protected routes
 		r.Group(func(r chi.Router) {
 			r.Use(middleware.Auth(cfg.JWTSecret))

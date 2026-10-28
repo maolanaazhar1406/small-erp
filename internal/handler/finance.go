@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -88,7 +89,8 @@ func (h *FinanceHandler) UpdateAccount(w http.ResponseWriter, r *http.Request) {
 
 func (h *FinanceHandler) ListJournalEntries(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	entries, total, err := h.repo.ListJournalEntries(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	entries, total, err := h.repo.ListJournalEntries(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list journal entries")
 		return
@@ -132,7 +134,8 @@ func (h *FinanceHandler) GetJournalEntry(w http.ResponseWriter, r *http.Request)
 
 func (h *FinanceHandler) ListAP(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	aps, total, err := h.repo.ListAP(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	aps, total, err := h.repo.ListAP(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list accounts payable")
 		return
@@ -142,7 +145,8 @@ func (h *FinanceHandler) ListAP(w http.ResponseWriter, r *http.Request) {
 
 func (h *FinanceHandler) ListAR(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	ars, total, err := h.repo.ListAR(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	ars, total, err := h.repo.ListAR(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list accounts receivable")
 		return
@@ -162,7 +166,8 @@ func NewPaymentHandler(db *pgxpool.Pool) *PaymentHandler {
 
 func (h *PaymentHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	payments, total, err := h.repo.ListPayments(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	payments, total, err := h.repo.ListPayments(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list payments")
 		return

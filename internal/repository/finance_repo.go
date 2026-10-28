@@ -99,9 +99,11 @@ func (r *FinanceRepo) generateJENumber(ctx context.Context) (string, error) {
 	return fmt.Sprintf("JE-%s-%04d", time.Now().Format("20060102"), count), nil
 }
 
-func (r *FinanceRepo) ListJournalEntries(ctx context.Context, page, perPage int) ([]model.JournalEntry, int, error) {
+func (r *FinanceRepo) ListJournalEntries(ctx context.Context, page, perPage int, q string) ([]model.JournalEntry, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM journal_entries`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM journal_entries
+		 WHERE ($1 = '' OR entry_number ILIKE '%' || $1 || '%' OR COALESCE(description, '') ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -110,7 +112,9 @@ func (r *FinanceRepo) ListJournalEntries(ctx context.Context, page, perPage int)
 	rows, err := r.db.Query(ctx,
 		`SELECT id, entry_number, entry_date, COALESCE(description, ''), COALESCE(reference_type, ''),
 		        COALESCE(reference_id, 0), COALESCE(created_by, 0), created_at
-		 FROM journal_entries ORDER BY id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 FROM journal_entries
+		 WHERE ($1 = '' OR entry_number ILIKE '%' || $1 || '%' OR COALESCE(description, '') ILIKE '%' || $1 || '%')
+		 ORDER BY id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -213,9 +217,13 @@ func (r *FinanceRepo) CreateJournalEntry(ctx context.Context, req model.CreateJo
 
 // ---- Accounts Payable ----
 
-func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int) ([]model.AccountPayable, int, error) {
+func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int, q string) ([]model.AccountPayable, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM accounts_payable`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM accounts_payable ap
+		 JOIN suppliers s ON ap.supplier_id = s.id
+		 LEFT JOIN purchase_orders po ON ap.po_id = po.id
+		 WHERE ($1 = '' OR s.name ILIKE '%' || $1 || '%' OR COALESCE(po.po_number, '') ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -227,7 +235,8 @@ func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int) ([]model.Ac
 		 FROM accounts_payable ap
 		 JOIN suppliers s ON ap.supplier_id = s.id
 		 LEFT JOIN purchase_orders po ON ap.po_id = po.id
-		 ORDER BY ap.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR s.name ILIKE '%' || $1 || '%' OR COALESCE(po.po_number, '') ILIKE '%' || $1 || '%')
+		 ORDER BY ap.id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -247,9 +256,13 @@ func (r *FinanceRepo) ListAP(ctx context.Context, page, perPage int) ([]model.Ac
 
 // ---- Accounts Receivable ----
 
-func (r *FinanceRepo) ListAR(ctx context.Context, page, perPage int) ([]model.AccountReceivable, int, error) {
+func (r *FinanceRepo) ListAR(ctx context.Context, page, perPage int, q string) ([]model.AccountReceivable, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM accounts_receivable`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM accounts_receivable ar
+		 JOIN customers c ON ar.customer_id = c.id
+		 LEFT JOIN sales_orders so ON ar.so_id = so.id
+		 WHERE ($1 = '' OR c.name ILIKE '%' || $1 || '%' OR COALESCE(so.so_number, '') ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -261,7 +274,8 @@ func (r *FinanceRepo) ListAR(ctx context.Context, page, perPage int) ([]model.Ac
 		 FROM accounts_receivable ar
 		 JOIN customers c ON ar.customer_id = c.id
 		 LEFT JOIN sales_orders so ON ar.so_id = so.id
-		 ORDER BY ar.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR c.name ILIKE '%' || $1 || '%' OR COALESCE(so.so_number, '') ILIKE '%' || $1 || '%')
+		 ORDER BY ar.id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -290,9 +304,14 @@ func (r *FinanceRepo) generatePaymentNumber(ctx context.Context) (string, error)
 	return fmt.Sprintf("PMT-%s-%04d", time.Now().Format("20060102"), count), nil
 }
 
-func (r *FinanceRepo) ListPayments(ctx context.Context, page, perPage int) ([]model.Payment, int, error) {
+func (r *FinanceRepo) ListPayments(ctx context.Context, page, perPage int, q string) ([]model.Payment, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM payments`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM payments p
+		 LEFT JOIN purchase_orders po ON p.reference_id = po.id AND p.payment_type = 'payable'
+		 LEFT JOIN sales_orders so ON p.reference_id = so.id AND p.payment_type = 'receivable'
+		 WHERE ($1 = '' OR p.payment_number ILIKE '%' || $1 || '%' OR p.payment_type ILIKE '%' || $1 || '%'
+		        OR COALESCE(po.po_number, so.so_number, '') ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -302,9 +321,11 @@ func (r *FinanceRepo) ListPayments(ctx context.Context, page, perPage int) ([]mo
 		`SELECT p.id, payment_number, payment_type, reference_id, coalesce(po.po_number, so.so_number ) as number, amount, payment_date, payment_method,
 		        COALESCE(p.notes, ''), COALESCE(p.created_by, 0), p.created_at
 		 FROM payments p
-		 left join purchase_orders po on p.reference_id = po.id and p.payment_type = 'payable'
-		 left join sales_orders so on p.reference_id = so.id and p.payment_type = 'receivable'
-		 ORDER BY id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 LEFT JOIN purchase_orders po ON p.reference_id = po.id AND p.payment_type = 'payable'
+		 LEFT JOIN sales_orders so ON p.reference_id = so.id AND p.payment_type = 'receivable'
+		 WHERE ($1 = '' OR p.payment_number ILIKE '%' || $1 || '%' OR p.payment_type ILIKE '%' || $1 || '%'
+		        OR COALESCE(po.po_number, so.so_number, '') ILIKE '%' || $1 || '%')
+		 ORDER BY id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

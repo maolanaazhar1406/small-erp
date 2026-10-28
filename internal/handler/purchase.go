@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -22,7 +23,8 @@ func NewPurchaseOrderHandler(db *pgxpool.Pool) *PurchaseOrderHandler {
 
 func (h *PurchaseOrderHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	orders, total, err := h.repo.List(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	orders, total, err := h.repo.List(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list purchase orders")
 		return
@@ -116,7 +118,8 @@ func NewGoodsReceiptHandler(db *pgxpool.Pool) *GoodsReceiptHandler {
 
 func (h *GoodsReceiptHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	receipts, total, err := h.repo.ListGoodsReceipts(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	receipts, total, err := h.repo.ListGoodsReceipts(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list goods receipts")
 		return

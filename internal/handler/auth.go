@@ -17,12 +17,14 @@ import (
 type AuthHandler struct {
 	userRepo *repository.UserRepo
 	cfg      *config.Config
+	session  *SessionHandler
 }
 
 func NewAuthHandler(db *pgxpool.Pool, cfg *config.Config) *AuthHandler {
 	return &AuthHandler{
 		userRepo: repository.NewUserRepo(db),
 		cfg:      cfg,
+		session:  NewSessionHandler(db, cfg),
 	}
 }
 
@@ -57,21 +59,20 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get permissions
 	permissions, err := h.userRepo.GetPermissionsByRoleID(r.Context(), user.RoleID)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to get permissions")
 		return
 	}
 
-	// Generate JWT token
+	// Access token: berumur pendek (15 menit)
 	claims := &middleware.Claims{
 		UserID:      user.ID,
 		Username:    user.Username,
 		Role:        user.RoleName,
 		Permissions: permissions,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(h.cfg.JWTExpiryHours) * time.Hour)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(accessTTL)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
@@ -80,6 +81,13 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	tokenString, err := token.SignedString([]byte(h.cfg.JWTSecret))
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to generate token")
+		return
+	}
+
+	// Refresh token: dipasang sebagai cookie HttpOnly.
+	// Harus dipanggil sebelum RespondSuccess, karena header Set-Cookie hanya bisa dikirim sebelum body.
+	if err := h.session.setRefreshCookie(w, user.ID); err != nil {
+		model.RespondError(w, http.StatusInternalServerError, "Failed to create session")
 		return
 	}
 

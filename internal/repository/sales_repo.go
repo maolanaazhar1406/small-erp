@@ -26,9 +26,11 @@ func (r *SalesRepo) generateSONumber(ctx context.Context) (string, error) {
 	return fmt.Sprintf("SO-%s-%04d", time.Now().Format("20060102"), count), nil
 }
 
-func (r *SalesRepo) List(ctx context.Context, page, perPage int) ([]model.SalesOrder, int, error) {
+func (r *SalesRepo) List(ctx context.Context, page, perPage int, q string) ([]model.SalesOrder, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM sales_orders`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM sales_orders so JOIN customers c ON so.customer_id = c.id
+		 WHERE ($1 = '' OR so.so_number ILIKE '%' || $1 || '%' OR c.name ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -38,7 +40,8 @@ func (r *SalesRepo) List(ctx context.Context, page, perPage int) ([]model.SalesO
 		`SELECT so.id, so.so_number, so.customer_id, c.name, so.order_date, so.status,
 		        so.total_amount, so.notes, so.created_by, so.created_at, so.updated_at
 		 FROM sales_orders so JOIN customers c ON so.customer_id = c.id
-		 ORDER BY so.id DESC LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR so.so_number ILIKE '%' || $1 || '%' OR c.name ILIKE '%' || $1 || '%')
+		 ORDER BY so.id DESC LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

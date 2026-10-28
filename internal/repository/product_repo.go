@@ -18,17 +18,21 @@ func NewProductRepo(db *pgxpool.Pool) *ProductRepo {
 
 // ---- Product Categories ----
 
-func (r *ProductRepo) ListCategories(ctx context.Context, page, perPage int) ([]model.ProductCategory, int, error) {
+func (r *ProductRepo) ListCategories(ctx context.Context, page, perPage int, q string) ([]model.ProductCategory, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM product_categories`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM product_categories
+		 WHERE ($1 = '' OR name ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
-		`SELECT id, name, description, created_at, updated_at FROM product_categories ORDER BY id LIMIT $1 OFFSET $2`,
-		perPage, offset)
+		`SELECT id, name, description, created_at, updated_at FROM product_categories
+		 WHERE ($1 = '' OR name ILIKE '%' || $1 || '%')
+		 ORDER BY id LIMIT $2 OFFSET $3`,
+		q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -84,17 +88,21 @@ func (r *ProductRepo) DeleteCategory(ctx context.Context, id int) error {
 
 // ---- Units ----
 
-func (r *ProductRepo) ListUnits(ctx context.Context, page, perPage int) ([]model.Unit, int, error) {
+func (r *ProductRepo) ListUnits(ctx context.Context, page, perPage int, q string) ([]model.Unit, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM units`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM units
+		 WHERE ($1 = '' OR name ILIKE '%' || $1 || '%' OR abbreviation ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	offset := (page - 1) * perPage
 	rows, err := r.db.Query(ctx,
-		`SELECT id, name, abbreviation, created_at, updated_at FROM units ORDER BY id LIMIT $1 OFFSET $2`,
-		perPage, offset)
+		`SELECT id, name, abbreviation, created_at, updated_at FROM units
+		 WHERE ($1 = '' OR name ILIKE '%' || $1 || '%' OR abbreviation ILIKE '%' || $1 || '%')
+		 ORDER BY id LIMIT $2 OFFSET $3`,
+		q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -150,9 +158,11 @@ func (r *ProductRepo) DeleteUnit(ctx context.Context, id int) error {
 
 // ---- Products ----
 
-func (r *ProductRepo) ListProducts(ctx context.Context, page, perPage int) ([]model.Product, int, error) {
+func (r *ProductRepo) ListProducts(ctx context.Context, page, perPage int, q string) ([]model.Product, int, error) {
 	var total int
-	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM products`).Scan(&total)
+	err := r.db.QueryRow(ctx,
+		`SELECT COUNT(*) FROM products p
+		 WHERE ($1 = '' OR p.code ILIKE '%' || $1 || '%' OR p.name ILIKE '%' || $1 || '%')`, q).Scan(&total)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -164,7 +174,8 @@ func (r *ProductRepo) ListProducts(ctx context.Context, page, perPage int) ([]mo
 		 FROM products p
 		 LEFT JOIN product_categories c ON p.category_id = c.id
 		 LEFT JOIN units u ON p.unit_id = u.id
-		 ORDER BY p.id LIMIT $1 OFFSET $2`, perPage, offset)
+		 WHERE ($1 = '' OR p.code ILIKE '%' || $1 || '%' OR p.name ILIKE '%' || $1 || '%')
+		 ORDER BY p.id LIMIT $2 OFFSET $3`, q, perPage, offset)
 	if err != nil {
 		return nil, 0, err
 	}

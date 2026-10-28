@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -22,7 +23,8 @@ func NewSalesOrderHandler(db *pgxpool.Pool) *SalesOrderHandler {
 
 func (h *SalesOrderHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	orders, total, err := h.repo.List(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	orders, total, err := h.repo.List(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list sales orders")
 		return

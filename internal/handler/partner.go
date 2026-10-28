@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -23,7 +24,8 @@ func NewCustomerHandler(db *pgxpool.Pool) *CustomerHandler {
 
 func (h *CustomerHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	customers, total, err := h.repo.ListCustomers(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	customers, total, err := h.repo.ListCustomers(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list customers")
 		return
@@ -98,7 +100,8 @@ func NewSupplierHandler(db *pgxpool.Pool) *SupplierHandler {
 
 func (h *SupplierHandler) List(w http.ResponseWriter, r *http.Request) {
 	page, perPage := model.GetPaginationParams(r)
-	suppliers, total, err := h.repo.ListSuppliers(r.Context(), page, perPage)
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+	suppliers, total, err := h.repo.ListSuppliers(r.Context(), page, perPage, q)
 	if err != nil {
 		model.RespondError(w, http.StatusInternalServerError, "Failed to list suppliers")
 		return
