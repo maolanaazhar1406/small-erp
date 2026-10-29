@@ -383,6 +383,16 @@ func (r *PurchaseRepo) CreateGoodsReceipt(ctx context.Context, req model.CreateG
 			return nil, fmt.Errorf("failed to update inventory: %w", err)
 		}
 
+		// Auto-update product cost from PO unit_price (latest purchase price)
+		_, err = tx.Exec(ctx,
+			`UPDATE products SET cost = (
+				SELECT unit_price FROM purchase_order_items WHERE id = $1
+			), updated_at = NOW() WHERE id = $2`,
+			item.POItemID, item.ProductID)
+		if err != nil {
+			return nil, fmt.Errorf("failed to update product cost: %w", err)
+		}
+
 		// Record stock movement
 		_, err = tx.Exec(ctx,
 			`INSERT INTO stock_movements (product_id, movement_type, quantity, reference_type, reference_id, notes, created_by)

@@ -281,6 +281,41 @@ func (r *ProductRepo) UpdateProduct(ctx context.Context, id int, req model.Updat
 }
 
 func (r *ProductRepo) DeleteProduct(ctx context.Context, id int) error {
-	_, err := r.db.Exec(ctx, `DELETE FROM products WHERE id = $1`, id)
-	return err
+	// Cek apakah produk sudah memiliki transaksi
+	type txCheck struct {
+		table string
+		col   string
+	}
+	checks := []txCheck{
+		{"purchase_order_items", "product_id"},
+		{"sales_order_items", "product_id"},
+		{"goods_receipt_items", "product_id"},
+		{"stock_movements", "product_id"},
+	}
+	for _, c := range checks {
+		var count int
+		err := r.db.QueryRow(ctx,
+			`SELECT COUNT(*) FROM `+c.table+` WHERE `+c.col+` = $1`, id).Scan(&count)
+		if err != nil {
+			return err
+		}
+		if count > 0 {
+			return fmt.Errorf("cannot delete product: it has existing transactions in %s", c.table)
+		}
+	}
+
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+
+	// Hapus inventory awal (qty=0, belum ada transaksi)
+	if _, err = tx.Exec(ctx, `DELETE FROM inventory WHERE product_id = $1`, id); err != nil {
+		return err
+	}
+	if _, err = tx.Exec(ctx, `DELETE FROM products WHERE id = $1`, id); err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
 }
